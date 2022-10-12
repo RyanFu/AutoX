@@ -3,7 +3,7 @@ package org.autojs.autojs.model.explorer;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import com.stardust.autojs.project.ProjectConfigKt;
+import com.stardust.autojs.project.ProjectConfig;
 import com.stardust.pio.PFile;
 import com.stardust.pio.PFiles;
 
@@ -41,7 +41,7 @@ public class WorkspaceFileProvider extends ExplorerFileProvider {
         return listFiles(new PFile(path))
                 .collectInto(createExplorerPage(path, parent), (p, file) -> {
                     if (file.isDirectory()) {
-                        ProjectConfigKt projectConfig = ProjectConfigKt.Companion.fromProjectDir(file.getPath());
+                        ProjectConfig projectConfig = ProjectConfig.Companion.fromProjectDir(file.getPath());
                         if (projectConfig != null) {
                             p.addChild(new ExplorerProjectPage(file, parent, projectConfig));
                             return;

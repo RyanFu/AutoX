@@ -10,6 +10,8 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.view.*
 import android.widget.ImageView
+import androidx.core.graphics.drawable.toBitmapOrNull
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,10 +21,12 @@ import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.ViewById
-import org.autojs.autojs.R
+import org.autojs.autoxjs.R
 import org.autojs.autojs.tool.BitmapTool
+import org.autojs.autojs.tool.writeTo
 import org.autojs.autojs.ui.BaseActivity
 import org.autojs.autojs.workground.WrapContentGridLayoutManger
+import java.io.File
 
 
 /**
@@ -67,9 +71,11 @@ open class ShortcutIconSelectActivity : BaseActivity() {
     }
 
     private fun selectApp(appItem: AppItem) {
+        val file = File(this.cacheDir, "icon/${appItem.info.packageName}.png")
+        file.parentFile?.let { if (!it.exists()) it.mkdirs() }
+        appItem.icon.toBitmapOrNull()?.writeTo(file)
         setResult(
-            RESULT_OK, Intent()
-                .putExtra(EXTRA_PACKAGE_NAME, appItem.info.packageName)
+            RESULT_OK, Intent().setData(file.toUri())
         )
         finish()
     }
@@ -88,6 +94,7 @@ open class ShortcutIconSelectActivity : BaseActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
             setResult(RESULT_OK, data)
             finish()
@@ -132,7 +139,7 @@ open class ShortcutIconSelectActivity : BaseActivity() {
         const val EXTRA_PACKAGE_NAME = "extra_package_name"
 
         @JvmStatic
-        @Deprecated("")
+        @Deprecated("Use org/autojs/autojs/ui/shortcut/ShortcutIconSelectResult")
         fun getBitmapFromIntent(context: Context, data: Intent): Observable<Bitmap> {
             val packageName = data.getStringExtra(EXTRA_PACKAGE_NAME)
             if (packageName != null) {
@@ -149,38 +156,6 @@ open class ShortcutIconSelectActivity : BaseActivity() {
                         uri
                     )
                 )
-            }
-        }
-
-        suspend fun getBitmapFromIntent2(context: Context, intent: Intent): Bitmap? {
-            val drawable = withContext(Dispatchers.IO) {
-                intent.getStringExtra(EXTRA_PACKAGE_NAME)?.let {
-                    return@withContext BitmapTool.drawableToBitmap(
-                        context.packageManager.getApplicationIcon(
-                            it
-                        )
-                    )
-                }
-                return@withContext null
-            } ?: intent.data?.let { uri ->
-                context.contentResolver.openInputStream(uri)?.use {
-                    BitmapFactory.decodeStream(it)
-                }
-            }
-            return withContext(Dispatchers.Main) {
-                drawable
-            }
-        }
-
-        suspend fun getDrawableOrUriFromIntent(context: Context, intent: Intent): Any? {
-            val drawable = withContext(Dispatchers.IO) {
-                intent.getStringExtra(EXTRA_PACKAGE_NAME)?.let {
-                    return@withContext context.packageManager.getApplicationIcon(it)
-                }
-                return@withContext null
-            }
-            return withContext(Dispatchers.Main) {
-                drawable ?: intent.data
             }
         }
 

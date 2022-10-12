@@ -7,11 +7,9 @@ import android.preference.PreferenceManager;
 
 import com.stardust.app.GlobalAppContext;
 import com.stardust.autojs.runtime.accessibility.AccessibilityConfig;
-import com.stardust.theme.ThemeColorManager;
 
 import org.autojs.autojs.autojs.key.GlobalKeyObserver;
-import org.autojs.autojs.theme.ThemeColorManagerCompat;
-
+import org.autojs.autoxjs.R;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
@@ -135,7 +133,7 @@ public class Pref {
 
     public static String getDocumentationUrl() {
 //        String docSource = def().getString(getString(R.string.key_documentation_source), null);
-            return "http://doc.autoxjs.com/";
+        return "http://doc.autoxjs.com/";
     }
 
     public static boolean isFloatingMenuShown() {
@@ -143,7 +141,7 @@ public class Pref {
     }
 
     public static boolean isAutoBack() {
-        return def().getBoolean(getString(R.string.key_auto_back), true);
+        return def().getBoolean(getString(R.string.key_auto_backup), true);
     }
 
     public static void setFloatingMenuShown(boolean checked) {
@@ -196,6 +194,36 @@ public class Pref {
         return def().getString("user_code", defValue);
     }
 
+    public static void setWebData(String webDataJson) {
+        def().edit().putString("WebData", webDataJson).apply();
+    }
 
+    public static String getWebData() {
+        return def().getString("WebData", "");
+    }
+
+    public static void setPermissionCheck(Boolean flag) {
+        def().edit().putBoolean("permissionCheck", flag).apply();
+    }
+
+    public static Boolean getPermissionCheck() {
+        return def().getBoolean("permissionCheck", true);
+    }
+
+    public static void setLineWrap(Boolean flag) {
+        def().edit().putBoolean("LineWrap", flag).apply();
+    }
+
+    public static Boolean getLineWrap() {
+        return def().getBoolean("LineWrap", false);
+    }
+
+    public static void setTaskManager(int number) {
+        def().edit().putInt("TaskManager", number).apply();
+    }
+
+    public static int getTaskManager() {
+        return def().getInt("TaskManager", 0);
+    }
 
 }

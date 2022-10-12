@@ -25,7 +25,7 @@ import com.stardust.autojs.runtime.api.Files;
 import com.stardust.autojs.runtime.api.Floaty;
 import com.stardust.autojs.core.looper.Loopers;
 import com.stardust.autojs.runtime.api.Media;
-import com.stardust.autojs.runtime.api.Paddle;
+import com.stardust.autojs.runtime.api.GoogleMLKit;
 import com.stardust.autojs.runtime.api.Plugins;
 import com.stardust.autojs.runtime.api.Sensors;
 import com.stardust.autojs.runtime.api.SevenZip;
@@ -199,7 +199,9 @@ public class ScriptRuntime {
     public final Plugins plugins;
 
     @ScriptVariable
-    public final Paddle paddle;
+    public final GoogleMLKit gmlkit;
+//    @ScriptVariable
+//    public final Paddle paddle;
 
     private Images images;
 
@@ -223,9 +225,7 @@ public class ScriptRuntime {
         this.automator = new SimpleActionAutomator(accessibilityBridge, this);
         automator.setScreenMetrics(mScreenMetrics);
         this.info = accessibilityBridge.getInfoProvider();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            images = new Images(context, this, builder.mScreenCaptureRequester);
-        }
+        images = new Images(context, this, builder.mScreenCaptureRequester);
         engines = new Engines(builder.mEngineService, this);
         dialogs = new Dialogs(this);
         device = new Device(context);
@@ -234,7 +234,8 @@ public class ScriptRuntime {
         media = new Media(context, this);
         plugins = new Plugins(context, this);
         zips = new SevenZip();
-        paddle = new Paddle();
+        gmlkit = new GoogleMLKit();
+//        paddle = new Paddle();
     }
 
     public void init() {
@@ -420,7 +421,6 @@ public class ScriptRuntime {
         } catch (Throwable e) {
             console.error("exception on exit: ", e);
         }
-       ;
         ignoresException(threads::shutDownAll);
         ignoresException(events::recycle);
         ignoresException(media::recycle);
@@ -430,13 +430,11 @@ public class ScriptRuntime {
             mRootShell = null;
             mShellSupplier = null;
         });
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            ignoresException(images::releaseScreenCapturer);
-        }
+        ignoresException(images::releaseScreenCapturer);
         ignoresException(sensors::unregisterAll);
         ignoresException(timers::recycle);
         ignoresException(ui::recycle);
-        ignoresException(paddle::release);
+//        ignoresException(paddle::release);
     }
 
     private void ignoresException(Runnable r) {

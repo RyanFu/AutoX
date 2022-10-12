@@ -1,12 +1,9 @@
 package org.autojs.autojs.build
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import org.autojs.autojs.build.apksigner.KeyStoreFileManager
 import org.autojs.autojs.build.apksigner.ZipSigner
 import org.autojs.autojs.build.apksigner.CertCreator.DistinguishedNameValues
 import org.autojs.autojs.build.apksigner.CertCreator
-import org.autojs.autojs.build.ApkKeyStore
 import com.stardust.pio.PFile
 import org.autojs.autojs.Pref
 import java.io.File
@@ -21,7 +18,6 @@ import java.util.ArrayList
  * Created by Cc on 2021/04/15
  * Modified by wilinz on 2022/5/23
  */
-@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 object ApkSigner {
     @Throws(Exception::class)
     fun sign(keystorePath: String?, keyPassword: String, oldApk: File, newApk: File) {

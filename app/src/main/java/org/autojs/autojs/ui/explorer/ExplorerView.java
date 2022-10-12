@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.stardust.pio.PFiles;
 
-import org.autojs.autojs.R;
+import org.autojs.autoxjs.R;
 import org.autojs.autojs.model.explorer.Explorer;
 import org.autojs.autojs.model.explorer.ExplorerChangeEvent;
 import org.autojs.autojs.model.explorer.ExplorerDirPage;
@@ -37,7 +37,7 @@ import org.autojs.autojs.model.explorer.Explorers;
 import org.autojs.autojs.model.script.ScriptFile;
 import org.autojs.autojs.model.script.Scripts;
 import org.autojs.autojs.tool.Observers;
-import org.autojs.autojs.ui.project.BuildActivity;
+import org.autojs.autojs.ui.build.BuildActivity;
 import org.autojs.autojs.ui.common.ScriptLoopDialog;
 import org.autojs.autojs.ui.common.ScriptOperations;
 import org.autojs.autojs.ui.viewmodel.ExplorerItemList;
@@ -61,7 +61,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Created by Stardust on 2017/8/21.
  */
-
+@Deprecated
 public class ExplorerView extends ThemeColorSwipeRefreshLayout implements SwipeRefreshLayout.OnRefreshListener, PopupMenu.OnMenuItemClickListener {
 
     private static final String LOG_TAG = "ExplorerView";
@@ -317,6 +317,7 @@ public class ExplorerView extends ThemeColorSwipeRefreshLayout implements SwipeR
         return getCurrentPage().toScriptFile();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
@@ -352,8 +353,7 @@ public class ExplorerView extends ThemeColorSwipeRefreshLayout implements SwipeR
                 notifyOperated();
                 break;
             case R.id.action_build_apk:
-                getContext().startActivity(BuildActivity.Companion.getIntent(getContext())
-                        .putExtra(BuildActivity.EXTRA_SOURCE, mSelectedItem.getPath()));
+                BuildActivity.Companion.start(getContext(),mSelectedItem.getPath());
                 notifyOperated();
                 break;
             case R.id.action_sort_by_date:

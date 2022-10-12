@@ -16,8 +16,8 @@ import android.widget.ListView
 import android.widget.TextView
 import com.stardust.util.ViewUtil
 import com.stardust.view.accessibility.NodeInfo
-import org.autojs.autojs.R
 import org.autojs.autojs.ui.widget.LevelBeamView
+import org.autojs.autoxjs.R
 import pl.openrnd.multilevellistview.*
 import java.util.*
 

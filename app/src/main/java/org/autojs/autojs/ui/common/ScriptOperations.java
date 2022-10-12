@@ -23,7 +23,7 @@ import com.stardust.pio.UncheckedIOException;
 import com.tencent.bugly.crashreport.BuglyLog;
 
 import org.autojs.autojs.Pref;
-import org.autojs.autojs.R;
+import org.autojs.autoxjs.R;
 import org.autojs.autojs.external.ScriptIntents;
 import org.autojs.autojs.model.explorer.Explorer;
 import org.autojs.autojs.model.explorer.ExplorerDirPage;
@@ -291,9 +291,9 @@ public class ScriptOperations {
     public void delete(final ScriptFile scriptFile) {
         DialogUtils.showDialog(new ThemeColorMaterialDialogBuilder(mContext)
                 .title(mContext.getString(R.string.text_are_you_sure_to_delete, scriptFile.getName()))
-                .positiveText(R.string.cancel)
-                .negativeText(R.string.ok)
-                .onNegative((dialog, which) -> {
+                .positiveText(R.string.ok)
+                .negativeText(R.string.cancel)
+                .onPositive((dialog, which) -> {
                     deleteWithoutConfirm(scriptFile);
                 })
                 .build());

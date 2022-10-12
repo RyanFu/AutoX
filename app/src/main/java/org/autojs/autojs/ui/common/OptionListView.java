@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.autojs.autojs.R;
+import org.autojs.autoxjs.R;
 
 import java.util.ArrayList;
 

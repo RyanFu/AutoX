@@ -1,10 +1,15 @@
 package org.autojs.autojs.tool
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.File
 
 /**
  * Created by Stardust on 2017/4/22.
@@ -40,5 +45,24 @@ object BitmapTool {
         drawable.setBounds(0, 0, canvas.width, canvas.height)
         drawable.draw(canvas)
         return bitmap
+    }
+}
+
+fun Bitmap.writeTo(file: File) {
+    file.outputStream().use { out ->
+        compress(Bitmap.CompressFormat.PNG, 100, out)
+    }
+}
+
+suspend fun saveIcon(context: Context, uri: Uri, file: File): File? {
+    return withContext(Dispatchers.IO) {
+        file.parentFile?.let { if (!it.exists()) it.mkdirs() }
+        try {
+            uri.copyTo(context, file)
+            file
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 }

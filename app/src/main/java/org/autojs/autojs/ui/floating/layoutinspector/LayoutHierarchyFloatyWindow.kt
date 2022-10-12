@@ -3,7 +3,6 @@ package org.autojs.autojs.ui.floating.layoutinspector
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
-import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.KeyEvent
 import android.view.View
@@ -21,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
@@ -30,12 +30,12 @@ import androidx.lifecycle.ViewTreeViewModelStoreOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.google.accompanist.appcompattheme.AppCompatTheme
 import com.stardust.app.DialogUtils
 import com.stardust.enhancedfloaty.FloatyService
 import com.stardust.view.accessibility.NodeInfo
-import org.autojs.autojs.R
+import org.autojs.autoxjs.R
 import org.autojs.autojs.ui.codegeneration.CodeGenerateDialog
+import org.autojs.autojs.ui.compose.theme.AutoXJsTheme
 import org.autojs.autojs.ui.floating.FloatyWindowManger
 import org.autojs.autojs.ui.floating.FullScreenFloatyWindow
 import org.autojs.autojs.ui.floating.MyLifecycleOwner
@@ -69,7 +69,7 @@ open class LayoutHierarchyFloatyWindow(private val mRootNode: NodeInfo) : FullSc
         }
 
         view.setContent {
-            AppCompatTheme {
+            AutoXJsTheme {
                 Content()
             }
         }
@@ -130,22 +130,19 @@ open class LayoutHierarchyFloatyWindow(private val mRootNode: NodeInfo) : FullSc
                         it.alpha = if (isShowLayoutHierarchyView) 1f else 0f
                     }
                 )
-                Box(modifier = Modifier.fillMaxWidth()) {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Spacer(modifier = Modifier.weight(1f))
+                    Button(
+                        onClick = { close() },
+                    ) {
+                        Text(text = stringResource(R.string.text_exit_floating_window))
+                    }
                     Button(
                         onClick = { isShowLayoutHierarchyView = !isShowLayoutHierarchyView },
                         modifier = Modifier
-                            .align(Alignment.CenterEnd)
                             .padding(horizontal = 16.dp)
                     ) {
-                        Text(text = "隐藏/显示")
-//                        if (isShowLayoutHierarchyView) {
-//                            Log.d(TAG, "隐藏")
-//                            Text(text = "隐藏")
-//                        } else {
-//                            Log.d(TAG, "显示")
-//                            Text(text = "显示")
-//                        }
-//                        Text(text = if (isShowLayoutHierarchyView) "隐藏" else "显示")
+                        Text(text = stringResource(R.string.text_hide_and_show))
                     }
                 }
             }

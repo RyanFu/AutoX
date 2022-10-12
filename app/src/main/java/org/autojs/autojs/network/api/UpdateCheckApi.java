@@ -1,6 +1,6 @@
 package org.autojs.autojs.network.api;
 
-import org.autojs.autojs.BuildConfig;
+import org.autojs.autoxjs.BuildConfig;
 import org.autojs.autojs.network.entity.VersionInfo;
 
 import io.reactivex.Observable;
@@ -15,7 +15,7 @@ import retrofit2.http.Query;
 
 public interface UpdateCheckApi {
 
-    @GET("http://file.ar01.cn/appstore/app/checkversion" + BuildConfig.APPID)
+//    @GET("http://file.ar01.cn/appstore/app/checkversion" + BuildConfig.APPID)
     @Headers("Cache-Control: no-cache")
     Observable<VersionInfo> checkForUpdates();
 

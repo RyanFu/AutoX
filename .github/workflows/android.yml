@@ -1,5 +1,6 @@
-name: Android CI
+name: Android CI build
 on:
+  workflow_dispatch:
   push:
     tags:
       - '*'
@@ -7,6 +8,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
       - name: checkout
         id: check
         uses: actions/checkout@v1
@@ -14,40 +18,60 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 15
-      - name: Build with Gradle
+      - name: Build inrt template
         run: |
           chmod 777 ./gradlew
-          ./gradlew inrt:assembleRelease
+          ./gradlew inrt:assembleTemplate
           ls
       - uses: Tlaster/android-sign@v1.2.2
         name: Sign inrt APK
         with:
           releaseDirectory: |
-            inrt/build/outputs/apk/common/release
+            inrt/build/outputs/apk/template/release
           signingKeyBase64: ${{ secrets.ISIGNING_KEY }}
           output: build/inrt/signed
           alias: ${{ secrets.IALIAS }}
           keyStorePassword: ${{ secrets.IKEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.IKEY_PASSWORD }}
-      - name: shell
+      - name: Build App
         run: |
           ls  build/inrt/signed
           pwd
           mv  build/inrt/signed/*.apk  app/src/main/assets/template.apk
           ls  app/src/main/assets
-          ./gradlew app:assembleDev
+          ./gradlew app:assembleV6
       - uses: Tlaster/android-sign@v1.2.2
         name: Sign app APK
         with:
           releaseDirectory: |
-            app/build/outputs/apk/dev/release
+            app/build/outputs/apk/v6/release
           signingKeyBase64: ${{ secrets.ASIGNING_KEY }}
           output: build/app/signed
           alias: ${{ secrets.AALIAS }}
           keyStorePassword: ${{ secrets.AKEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.AKEY_PASSWORD }}
-      - name: upload apk
-        uses: actions/upload-artifact@master
+      - name: create-gh-release
+        if: github.repository == 'kkevsekk1/AutoX'
+        uses: taiki-e/create-gh-release-action@v1
         with:
-          name: autoxjs.apk
-          path: build/app/signed
+          changelog: CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: 'build/app/signed/**'
+      - name: setup aliyun oss
+        if: github.repository == 'kkevsekk1/AutoX'
+        uses: manyuanrong/setup-ossutil@master
+        with:
+          endpoint: oss-cn-hangzhou.aliyuncs.com
+          access-key-id: ${{ secrets.OSS_KEY_ID }}
+          access-key-secret: ${{ secrets.OSS_KEY_SECRET }}
+      - name: mkdir aliyun
+        if: github.repository == 'kkevsekk1/AutoX'
+        run: ossutil mkdir oss://autoxjsoss/autoxjs/${{ steps.vars.outputs.short_ref }}
+      - name: cp files to aliyun
+        if: github.repository == 'kkevsekk1/AutoX'
+        run: ossutil cp -rf build/app/signed oss://autoxjsoss/autoxjs/${{ steps.vars.outputs.short_ref }}

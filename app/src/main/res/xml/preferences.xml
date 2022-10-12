@@ -78,25 +78,25 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:layout="@layout/preference_category_custom"
-        android:title="@string/text_appearance">
-        <Preference
-            android:layout="@layout/preference_custom"
-            android:title="@string/text_theme_color"
-            />
-    </PreferenceCategory>
+<!--    <PreferenceCategory-->
+<!--        android:layout="@layout/preference_category_custom"-->
+<!--        android:title="@string/text_appearance">-->
+<!--        <Preference-->
+<!--            android:layout="@layout/preference_custom"-->
+<!--            android:title="@string/text_theme_color"-->
+<!--            />-->
+<!--    </PreferenceCategory>-->
 
     <PreferenceCategory
         android:layout="@layout/preference_category_custom"
         android:title="@string/text_others">
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/key_single_build_clean_mode"
-            android:layout="@layout/preference_custom"
-            android:summary="@string/summary_single_build_clean_mode"
-            android:title="@string/text_single_build_clean_mode"/>
+<!--        <SwitchPreference-->
+<!--            android:defaultValue="true"-->
+<!--            android:key="@string/key_single_build_clean_mode"-->
+<!--            android:layout="@layout/preference_custom"-->
+<!--            android:summary="@string/summary_single_build_clean_mode"-->
+<!--            android:title="@string/text_single_build_clean_mode"/>-->
 
         <org.autojs.autojs.ui.settings.ScriptDirPathPreference
             android:defaultValue="@string/default_value_script_dir_path"
@@ -113,20 +113,19 @@
         android:layout="@layout/preference_category_custom"
         android:title="@string/text_about">
 
+<!--        <Preference-->
+<!--            android:layout="@layout/preference_custom"-->
+<!--            android:title="@string/text_issue_report"-->
+<!--            />-->
         <Preference
             android:layout="@layout/preference_custom"
-            android:title="@string/text_issue_report"
-            />
-
+            android:title="@string/text_about_me_and_repo" />
         <Preference
             android:layout="@layout/preference_custom"
-            android:title="@string/text_about_me_and_repo"
-            />
-
+            android:title="@string/text_licenses" />
         <Preference
             android:layout="@layout/preference_custom"
-            android:title="@string/text_licenses"
-            />
+            android:title="@string/text_licenses_other" />
     </PreferenceCategory>
 
 </PreferenceScreen>

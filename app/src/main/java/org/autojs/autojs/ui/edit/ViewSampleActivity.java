@@ -19,7 +19,7 @@ import com.stardust.app.OnActivityResultDelegate;
 import com.stardust.autojs.engine.JavaScriptEngine;
 import com.stardust.autojs.execution.ScriptExecution;
 
-import org.autojs.autojs.R;
+import org.autojs.autoxjs.R;
 import org.autojs.autojs.autojs.AutoJs;
 import org.autojs.autojs.model.sample.SampleFile;
 import org.autojs.autojs.ui.BaseActivity;
@@ -33,8 +33,6 @@ import org.autojs.autojs.ui.widget.ToolbarMenuItem;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
 
 import static org.autojs.autojs.model.script.Scripts.ACTION_ON_EXECUTION_FINISHED;
 import static org.autojs.autojs.model.script.Scripts.EXTRA_EXCEPTION_MESSAGE;

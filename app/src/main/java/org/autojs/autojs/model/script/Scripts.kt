@@ -9,14 +9,13 @@ import android.widget.Toast
 import com.stardust.app.GlobalAppContext
 import com.stardust.autojs.execution.ExecutionConfig
 import com.stardust.autojs.execution.ScriptExecution
-import com.stardust.autojs.execution.ScriptExecutionListener
 import com.stardust.autojs.execution.SimpleScriptExecutionListener
 import com.stardust.autojs.runtime.exception.ScriptInterruptedException
 import com.stardust.autojs.script.ScriptSource
 import com.stardust.util.IntentUtil
 
 import org.autojs.autojs.Pref
-import org.autojs.autojs.R
+import org.autojs.autoxjs.R
 import org.autojs.autojs.autojs.AutoJs
 import org.autojs.autojs.external.ScriptIntents
 import org.autojs.autojs.external.fileprovider.AppFileProvider

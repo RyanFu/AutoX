@@ -23,7 +23,7 @@ import com.stardust.autojs.script.AutoFileSource;
 import com.stardust.autojs.workground.WrapContentLinearLayoutManager;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
-import org.autojs.autojs.R;
+import org.autojs.autoxjs.R;
 import org.autojs.autojs.autojs.AutoJs;
 import org.autojs.autojs.storage.database.ModelChange;
 import org.autojs.autojs.timing.TimedTaskManager;
@@ -127,10 +127,10 @@ public class TaskListRecyclerView extends ThemeColorRecyclerView {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         AutoJs.getInstance().getScriptEngineService().registerGlobalScriptExecutionListener(mScriptExecutionListener);
-        mTimedTaskChangeDisposable = TimedTaskManager.getInstance().getTimeTaskChanges()
+        mTimedTaskChangeDisposable = TimedTaskManager.INSTANCE.getTimeTaskChanges()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onTaskChange);
-        mIntentTaskChangeDisposable = TimedTaskManager.getInstance().getIntentTaskChanges()
+        mIntentTaskChangeDisposable = TimedTaskManager.INSTANCE.getIntentTaskChanges()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onTaskChange);
     }
